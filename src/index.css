@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+#root {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont,
+        "Segoe UI",  Arial, sans-serif !important;
+}
+
+@keyframes rotateForward {
+    0% {
+        transform: rotate(0deg);
+
+    }
+
+    50% {
+        transform: rotate(180deg);
+
+    }
+
+    100% {
+        transform: rotate(360deg);
+
+    }
+}
+
+@keyframes rotateBackward {
+    0% {
+        transform: rotate(360deg);
+
+    }
+
+    50% {
+        transform: rotate(180deg);
+
+    }
+
+    100% {
+        transform: rotate(0deg);
+
+    }
+}
+
+.logo1 {
+    animation: rotateForward 1000ms cubic-bezier(.22,.68,0,1.71) infinite;
+}
+
+.logo2 {
+    animation: rotateBackward 1000ms cubic-bezier(.22,.68,0,1.71) infinite;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+/* General styles */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.gap-\[32px\] {
+    gap: 32px;
+}
+
+.gap-\[24px\] {
+    gap: 24px;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-spacing-lg {
+    gap: var(--spacing-lg);
+}
+
+.gap-spacing-xs {
+    gap: var(--spacing-xs);
+}
+
+.w-3\/4 {
+    width: 75%;
+}
+
+.w-2\/4 {
+    width: 50%;
+}
+
+.w-3\/6 {
+    width: 50%;
+}
+
+.w-2\/6 {
+    width: 33.333333%;
+}
+
+.w-full {
+    width: 100%;
+}
+
+/* Text styles */
+.text-\[30px\] {
+    font-size: 30px;
+}
+
+.text-\[14px\] {
+    font-size: 14px;
+}
+
+.text-\[18px\] {
+    font-size: 18px;
+}
+
+.text-\[12px\] {
+    font-size: 12px;
+}
+
+.font-\[500\] {
+    font-weight: 500;
+}
+
+.font-\[600\] {
+    font-weight: 600;
+}
+
+.font-\[400\] {
+    font-weight: 400;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+/* Color styles */
+.text-\[\#4D5761\] {
+    color: #4D5761;
+}
+
+.text-\[\#111927\] {
+    color: #111927;
+}
+
+.text-\[\#079455\] {
+    color: #079455;
+}
+
+.text-\[\#F04438\] {
+    color: #F04438;
+}
+
+.text-\[\#384250\] {
+    color: #384250;
+}
+
+.text-white {
+    color: white;
+}
+
+/* Border styles */
+.border {
+    border: 1px solid #e5e7eb;
+}
+
+.rounded-\[8px\] {
+    border-radius: 8px;
+}
+
+.rounded-radius-sm {
+    border-radius: var(--radius-sm);
+}
+
+.rounded-\[10px\] {
+    border-radius: 10px;
+}
+
+/* Padding styles */
+.px-spacing-xl {
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+}
+
+.p-spacing-2-xl {
+    padding: var(--spacing-2-xl);
+}
+
+.py-\[10px\] {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.px-\[14px\] {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.pt-\[20px\] {
+    padding-top: 20px;
+}
+
+.p-\[10px\] {
+    padding: 10px;
+}
+
+.pl-11 {
+    padding-left: 2.75rem;
+}
+
+.p-\[12px\] {
+    padding: 12px;
+}
+
+/* Margin styles */
+.ml-4 {
+    margin-left: 1rem;
+}
+
+.mx-4 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.mt-\[4rem\] {
+    margin-top: 4rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+/* Background styles */
+.bg-black {
+    background-color: black;
+}
+
+/* Other styles */
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.top-11 {
+    top: 2.75rem;
+}
+
+.left-3 {
+    left: 0.75rem;
+}
+
+.outline-none {
+    outline: none;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+
+
+.job-title {
+    font-size: 30px;
+}
+
+
+.metric-container {
+    display: flex;
+    gap: 24px;
+}
+
+.metric-group {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+.left-section {
+    width: 75%;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.description {
+    font-weight: 400;
+    color: #4D5761;
+}
+
+.right-section {
+    width: 50%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-resume-btn,
+.mail-reports-btn {
+    display: flex;
+    font-weight: 600;
+    max-height: 40px;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 10px;
+    gap: var(--spacing-xs);
+    padding: 10px 14px;
+}
+
+.mail-reports-btn {
+    background-color: black;
+    color: white;
+}
+
+
+/* progressBar.css */
+
+@keyframes progressAnimation {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: var(--progress-width);
+    }
+}
+
+.animate-progress {
+    animation: progressAnimation 1s ease-out forwards;
+}
