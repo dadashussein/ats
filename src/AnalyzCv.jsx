@@ -21,28 +21,25 @@ const AnalyzCv = () => {
 
 
     return (
-        <div className={`flex items-center font-family-apple  justify-center h-full transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-            <div className='w-full max-w-[380px] text-center'>
-                <div className={`relative w-[96px] h-[96px] mx-auto`}>
+        <div className={`flex items-center  justify-center h-full transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+            <div className='w-full max-w-[380px] text-center flex flex-col items-center'>
+                <div className={`relative w-[58px] h-[58px]`}>
                     <img
                         src={logo}
                         alt=""
-                        className={`absolute  top-0 left-0 right-0 mx-auto ${showLogo1 ? 'logo1 visible' : 'invisible'}`}
+                        className={`absolute w-[40px]  top-0 left-0 right-0 mx-auto ${showLogo1 ? 'logo1 visible' : 'invisible'}`}
                         loading="lazy"
                     />
                     <img
                         src={ailogo}
                         alt=""
-                        className={`absolute  top-0 left-0 right-0 mx-auto ${!showLogo1 ? 'logo2 visible' : 'invisible'}`}
+                        className={`absolute w-[40px] top-0 left-0 right-0 mx-auto ${!showLogo1 ? 'logo2 visible' : 'invisible'}`}
                         loading="lazy"
                     />
                 </div>
                 <span
-                    style={{
-                        'fontFamily': 'system-ui !important'
-                    }}
-                    className="text-[30px] font-[600] font-family-apple  leading-9 text-[#101828]  mb-[8px]">Analyzing Your Resumes...</span>
-                <p className='text-[16px] font-[400] mt-spacing-lg  text-[#475467]'>
+                    className="text-[30px] font-[600]  text-[#101828]">Analyzing Your Resumes...</span>
+                <p className='text-[16px] font-[400]   text-[#475467]'>
                     Please wait while we analyze your resumes.
                 </p>
             </div>

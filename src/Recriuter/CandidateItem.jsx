@@ -5,7 +5,7 @@ import SkillTooltip from './SkillTooltip';
 import styled from 'styled-components';
 import avatar from '../assets/avata.png';
 
-const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete, isGlorri }) => {
+const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const skillsToShowCount = 2;
     const getSkillColor = (color) => {
@@ -44,12 +44,12 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${({ isGlorri }) => isGlorri ? '10px 12px' : '16px'};
+    padding: 16px;
   width: 100%;
 `;
 
     return (
-        <Container isGlorri={isGlorri} isGray={isGray} className='last:rounded-[8px]'>
+        <Container isGray={isGray} className='last:rounded-[8px]'>
             <div className="w-3/6 flex items-center">
                 <img className='w-[40px] h-[40px] rounded-full mr-[12px]' src={avatar} alt="mahho" />
                 <div>

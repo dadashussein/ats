@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CheckBox from '../components/CheckBox';
 import SpinLoadingButton from '../components/Loading/SpinLoading';
 import useResume from '../useResume';
@@ -12,8 +12,7 @@ const REQUEST_ID = 'https://extension.dadashussein.tech/cv/upload';
 const REQUEST_REPORT = `https://extension.dadashussein.tech/report`;
 
 
-const CandidateInput = ({ job }) => {
-    const { title, link } = job || {};
+const CandidateInput = () => {
     const [loading, setLoading] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -21,7 +20,6 @@ const CandidateInput = ({ job }) => {
     const navigate = useNavigate();
     const { resume } = useResume();
     const token = sessionStorage.getItem('token');
-    const isLinkedin = !!link && link.includes('linkedin');
 
     const [description, setDescription] = useState('');
 
@@ -57,9 +55,9 @@ const CandidateInput = ({ job }) => {
             setTimeout(async () => {
                 const formData = new FormData();
                 formData.append("job_description", description);
-                formData.append("vacancy_link", link);
                 const cv_id = await sendFilesForIdentification();
                 formData.append("cv_id", cv_id);
+                formData.append("vacancy_link", 'https://www.linkedin.com/jobs/view/2713948271/');
                 const response = await axios.post(REQUEST_REPORT, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -68,7 +66,7 @@ const CandidateInput = ({ job }) => {
                 });
                 if (response.status === 200) {
                     setSubmissionStatus('fulfilled');
-                    navigate('/result', { state: { data: response.data, title } });
+                    navigate('/result', { state: { data: response.data } });
                 }
             }, 300);
 
@@ -81,7 +79,7 @@ const CandidateInput = ({ job }) => {
     };
 
     return (
-        <div className='h-full font-family-inter'>
+        <div className=''>
             {submissionStatus === 'pending' ? (
                 <AnalyzCv />
             ) : (
@@ -100,13 +98,17 @@ const CandidateInput = ({ job }) => {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>
-                        <p className="text-[12px] text-center text-gray-500">
-                            By clicking "Rate my Resume", you agree to our <Link to="/terms" className="underline">terms and conditions</Link>.
-                        </p>
+                        <CheckBox
+                            name="displayNumber"
+                            label="true"
+                            checked={isChecked}
+                            onChange={(e) => setIsChecked(e.target.checked)}
+                        />
+
                         <button
                             onClick={handleSubmit}
-                            disabled={!isLinkedin && (!isChecked || !resume)}
-                            className={`flex justify-center items-center gap-1 text-[16px] font-[600] w-full h-[40px] border ${isChecked || isLinkedin ? 'bg-black text-white' : 'bg-gray-300 text-gray-500'} rounded-[6px]`}
+                            disabled={!isChecked || !resume || !description}
+                            className={`flex justify-center items-center gap-1 text-[16px] font-[600] w-full h-[40px] border ${isChecked ? 'bg-black text-white' : 'bg-gray-300 text-gray-500'} rounded-[6px]`}
                         >
                             {loading ? <SpinLoadingButton /> : "Rate my Resume"}
                         </button>

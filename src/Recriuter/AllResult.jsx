@@ -7,9 +7,7 @@ import { generatePDF } from "../utils/generatePdf";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const ScrollContainer = styled.div`
-  max-height: 90vh; 
-`;
+
 
 const CandidateList = styled.div`
   overflow-y: auto;
@@ -35,22 +33,22 @@ const SearchContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
-  overflow: hidden;
-  padding: ${({ isGlorri }) => isGlorri ? '10px 12px !important' : '16px !important'};
-  background-color: white !important;
-  border: 1px solid #d1d5db !important; 
-  color: #6b7280 !important; 
-  font-size: 16px !important;
-  line-height: 1.5rem !important; 
-  flex-grow: 1 !important;
-  white-space: nowrap !important;
-  background: transparent !important;
-  padding-left: 3rem !important;
-  outline: none !important;
+  background-color: white  ;
+  border: 1px solid #d1d5db  ; 
+  padding: 8px;
+  color: #6b7280  ; 
+  font-size: 16px;
+  border-radius: 6px;
+  line-height: 1.5rem  ; 
+  flex-grow: 1  ;
+  white-space: nowrap  ;
+  background: transparent  ;
+  padding-left: 3rem  ;
+  outline: none  ;
   
   
   &:focus {
-    outline: none !important;
+    outline: none  ;
   }
 `;
 
@@ -74,13 +72,11 @@ const EmailInput = styled.input`
   }
 `;
 
-const AllResult = ({ job }) => {
+const AllResult = () => {
     const location = useLocation();
     const [isSending, setIsSending] = useState(false);
     const { data = [], title = "No Title Provided", resumes = [] } = location.state || {};
     const [search, setSearch] = useState("");
-    const { link } = job || {};
-
     const token = sessionStorage.getItem('token');
 
 
@@ -111,7 +107,6 @@ const AllResult = ({ job }) => {
         resume: resumes[index]?.file || null
     }));
 
-    const isGlorri = !!link && link.includes('glorri');
 
     const [candidates, setCandidates] = useState(data.map((item, index) => ({
         name: item.fullname || `Candidate ${index + 1}`,
@@ -182,15 +177,15 @@ const AllResult = ({ job }) => {
         setEmail("");
     };
     return (
-        <ScrollContainer className="font-family-inter flex flex-col gap-[32px] items-stretch w-full p-12">
+        <div className="flex flex-col gap-[32px] h-full py-4">
             <div className="job-title leading-9">
                 <h1 className="text-[30px] leading-9 font-family-inter font-[600]">{title}</h1>
             </div>
 
             <div className="metric-container items-stretch justify-between">
-                <div className="metric-group flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl ">
+                <div className="metric-group flex gap-2 min-w-[300px] ">
                     <span><UserCheckIcon /></span>
-                    <div>
+                    <div className="">
                         <span className=" text-[#4D5761] text-[14px]">Total Candidates: <span className="font-[500] text-[14px] text-[#111927]">{candidates.length}</span></span>
                         <span className="flex items-center gap-2">
                             <span className=" text-[14px] text-[#079455] flex items-center gap-2"><UploadIcon /> <span>100%</span></span>
@@ -228,7 +223,7 @@ const AllResult = ({ job }) => {
                     <button
                         onClick={handleSendReportClick}
                         className={`bg-black max-h-[40px] flex font-[600]
-                         items-center rounded-radius-sm gap-spacing-xs text-white py-[10px] px-[14px]
+                         items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px]
                           `}>
                         <span><SendMailIcon /></span>
                         <span className="text-[14px]">Mail me Reports</span>
@@ -252,10 +247,9 @@ const AllResult = ({ job }) => {
             <div className="border border-gray-200 rounded-[8px] pt-[20px]">
                 <div className="flex items-center gap-2">
                     <div className="relative flex ml-4 gap-2 flex-col">
-                        <span className="text-[14px] text-[#384250]">Search by Name</span>
-                        <span className="absolute left-2 top-12"><SearchIcon /></span>
+                        <span className="text-[14px] text-[#384250]">Search</span>
+                        <span className="absolute left-2 top-9"><SearchIcon /></span>
                         <SearchInput
-                            isGlorri={isGlorri}
                             onChange={handleSearch}
                             type="text"
                             placeholder="Search"
@@ -270,16 +264,10 @@ const AllResult = ({ job }) => {
                     </SearchContainer>
 
                     <CandidateList id="pdf-content"
-                        style={
-                            {
-                                maxHeight: 'calc(90vh - 530px)',
-                                minHeight: 'calc(90vh - 500px)'
-                            }
-                        }>
+                    >
                         {filteredCandidates.length > 0 ? (
                             filteredCandidates.map((candidate, index) => (
                                 <CandidateItem
-                                    isGlorri={isGlorri}
                                     key={candidate.email}
                                     name={candidate.name}
                                     email={candidate.email}
@@ -299,7 +287,7 @@ const AllResult = ({ job }) => {
                 </div>
             </div>
 
-        </ScrollContainer>
+        </div>
     );
 };
 

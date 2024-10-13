@@ -10,25 +10,7 @@ import autoAnimate from '@formkit/auto-animate';
 import styled from 'styled-components';
 import downlaodicon from '../assets/version3/downloadicon.png'
 
-const ScrollContainer = styled.div`
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
 
-  &::-webkit-scrollbar-track {
-    background: #d7d7d7;
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #A8A8A8;
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #b30000;
-  }
-`;
 
 
 
@@ -91,7 +73,7 @@ const RecriuterUpload = () => {
             <div
                 {...getRootProps()}
                 className="items-center w-full cursor-pointer
-                 relative border border-[#989a9d]
+                 relative border 
                   flex   flex-col px-6 py-4 rounded-xl"
             >
                 <input accept={types} {...getInputProps()} />
@@ -118,10 +100,10 @@ const RecriuterUpload = () => {
             </div>
 
             {severalResume.length > 0 && (
-                <ScrollContainer style={{ maxHeight: 'calc(90vh - 450px)' }} className='my-4 flex border rounded-md border-gray-200
-                 overflow-y-scroll flex-col gap-4' ref={cvListRef}>
+                <div  className='my-4 flex  rounded-md max-h-[170px] overflow-y-auto no-scrollbar
+                  flex-col gap-4' ref={cvListRef}>
                     {severalResume && severalResume.map((cv) => (
-                        <div key={cv.id} className=" border p-spacing-xl border-gray-150
+                        <div key={cv.id} className=" border  border-gray-150
                      flex items-center justify-between gap-3 rounded-xl">
                             <img
                                 alt="Resume file"
@@ -131,13 +113,13 @@ const RecriuterUpload = () => {
                                 }
                                 className="object-contain  w-[32px]  h-[40px]"
                             />
-                            <div className="items-stretch self-stretch flex grow basis-[0%] flex-col">
+                            <div className="items-stretch self-stretch px-2 flex grow basis-[0%] flex-col">
                                 <div className="overflow-hidden flex justify-between font-medium leading-5">
-                                    <div className='flex flex-col gap-2'>
-                                        <p className="text-slate-700 text-[14px] max-w-[310px] font-[500] leading-5">
+                                    <div className='flex flex-col'>
+                                        <p className="text-slate-700 text-[14px] line-clamp-1  font-[500]">
                                             {cv.file.name}
                                         </p>
-                                        <div className="overflow-hidden text-slate-600 font-[400] text-ellipsis text-[14px] leading-5">
+                                        <div className="overflow-hidden text-slate-600 font-[400] text-[14px]">
                                             {ConverToKb(cv.file.size)} KB
                                             {error && <div className="error">{error}</div>}
                                         </div>
@@ -168,7 +150,7 @@ const RecriuterUpload = () => {
                             </div>
                         </div>
                     ))}
-                </ScrollContainer>
+                </div>
             )}
         </div>
 

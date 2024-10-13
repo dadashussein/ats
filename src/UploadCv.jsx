@@ -50,9 +50,9 @@ const UploadCv = () => {
   const ConverToKb = (size) => (size / 1000).toFixed(2);
 
   return (
-    <div className='flex flex-col items-center justify-center font-family-inter'>
+    <div className='flex flex-col items-center justify-center'>
       <div className="flex flex-col items-center justify-center text-center">
-        <img src={logo} alt="" className="min-w-10 min-h-10 mb-4" loading="lazy" />
+        <img src={logo} alt="" className="min-w-10 min-h-10 mb-1" loading="lazy" />
         <div className='flex flex-col gap-5'>
           <h1 className="text-[30px] font-bold">Future of AI Saying Hi </h1>
           <p className='text-[16px] text-[#475467]'>
@@ -62,7 +62,7 @@ const UploadCv = () => {
       </div>
       <div
         {...getRootProps()}
-        className="items-center w-full mt-[3rem] cursor-pointer relative self-center border border-[color:var(--Colors-Border-border-secondary,#EAECF0)] bg-white flex  max-w-full flex-col px-6 py-4 rounded-xl border-solid max-md:px-5"
+        className="items-center w-full mt-2 cursor-pointer relative self-center border bg-white flex  max-w-full flex-col px-6 py-4 rounded-xl border-solid max-md:px-5"
       >
         <input accept={types} {...getInputProps()} />
         <img
@@ -86,7 +86,7 @@ const UploadCv = () => {
         </div>
       </div>
       {progress && (
-        <div className=" w-full  border border-gray-150
+        <div className=" w-full  border border-gray-150 
          bg-white flex max-w-full flex-col justify-center mt-4 p-4 rounded-xl">
           <div className="flex items-center justify-between gap-3">
             <img
@@ -105,7 +105,7 @@ const UploadCv = () => {
                font-medium leading-5 ">
                 <div className='flex flex-col gap-2'>
                   <p className="text-slate-700 text-[14px] max-w-[310px]
-                  font-[500] leading-5">
+                  font-[500] line-clamp-1">
                     {(resume && resume.name)}
                   </p>
                   <div className="overflow-hidden

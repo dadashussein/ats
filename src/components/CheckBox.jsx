@@ -19,13 +19,10 @@ const CheckBox = ({ name, label, className, value, checked, onChange, ...props }
         {label ? (
           <label
             htmlFor={name}
-            className="ms-2 w-full flex justify-between items-center text-[14px]
+            className="ms-2 w-full items-center text-[14px]
                         font-[500]  text-[#384250]"
           >
-            I agree with the{' '}
-            <Link to={'/terms'} download className="underline ml-2  text-[14px] cursor-pointer text-[#384250]">
-              terms and conditions
-            </Link>
+            I agree with the <Link to={'/terms'} className="underline">terms and conditions</Link>
           </label>
         ) : null}
       </div>
