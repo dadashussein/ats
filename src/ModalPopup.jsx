@@ -40,35 +40,34 @@ const ModalPopup = () => {
     };
 
     return (
-        <div className="flex flex-col gap-4 items-center justify-center">
+        <div className="flex flex-col gap-4 items-center justify-center p-4 sm:p-6 md:p-8">
             {/* header */}
-            <div className="flex flex-col gap-6 items-center">
-                <img loading="lazy" src={logoHi} alt="Logo" className="w-[48px] h-[48px]" />
-                <div className="flex flex-col gap-3">
-                    <div className="text-[#101828] text-[30px] font-[600] text-center">
+            <div className="flex flex-col gap-4 sm:gap-6 items-center">
+                <img loading="lazy" src={logoHi} alt="Logo" className="w-10 h-10 sm:w-12 sm:h-12 md:w-[48px] md:h-[48px]" />
+                <div className="flex flex-col gap-2 sm:gap-3">
+                    <div className="text-[#101828] text-2xl sm:text-[26px] md:text-[30px] font-[600] text-center">
                         Welcome Back!
                     </div>
-                    <div className="text-[#475467] text-[16px] text-center">
-                        Join the thousands of happy 🎉 job seekers <br /> and successful companies on Himate.az!
+                    <div className="text-[#475467] text-sm sm:text-[14px] md:text-[16px] text-center">
+                        Join the thousands of happy 🎉 job seekers <br className="hidden sm:inline" /> and successful companies on Himate.az!
                     </div>
                 </div>
             </div>
             {/* content */}
-            <div className="flex flex-col  gap-6">
-                <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-md">
+                <div className="flex flex-col gap-3 sm:gap-4">
                     <button
                         onClick={() => setActiveMenu(1)}
-                        className={`transition-all relative flex items-center gap-3 border-2  rounded-[10px] p-4 ${activeMenu === 1
-                            ? 'border-green-500'
-                            : 'border-gray-300'
-                            }`}
+                        className={`transition-all relative flex items-center gap-2 sm:gap-3 border-2 rounded-[10px] p-3 sm:p-4 ${
+                            activeMenu === 1 ? 'border-green-500' : 'border-gray-300'
+                        }`}
                     >
-                        <img loading="lazy" src={welcomeBack1} alt="Logo1" className="" />
+                        <img loading="lazy" src={welcomeBack1} alt="Logo1" />
                         <div>
-                            <div className="text-[#101828] font-family-inter text-[14px] font-[500] text-left">
+                            <div className="text-[#101828] font-family-inter text-xs sm:text-sm md:text-[14px] font-[500] text-left">
                                 Rate My Resume
                             </div>
-                            <div className="text-[#4D5761] font-family-inter text-[14px] text-left">
+                            <div className="text-[#4D5761] font-family-inter text-xs sm:text-sm md:text-[14px] text-left">
                                 Personalized rating based on Vacancy
                             </div>
                         </div>
@@ -81,17 +80,16 @@ const ModalPopup = () => {
                     </button>
                     <button
                         onClick={() => setActiveMenu(2)}
-                        className={`transition-all relative  flex items-center gap-3 border-2 border-solid rounded-[10px] p-4 ${activeMenu === 2
-                            ? 'border border-green-500'
-                            : 'border border-gray-300'
-                            }`}
+                        className={`transition-all relative  flex items-center gap-2 sm:gap-3 border-2 border-solid rounded-[10px] p-3 sm:p-4 ${
+                            activeMenu === 2 ? 'border-green-500' : 'border-gray-300'
+                        }`}
                     >
-                        <img src={welcomeBack2} alt="Logo2" />
+                        <img src={welcomeBack2} alt="Logo2" className=" sm:w-auto sm:h-auto" />
                         <div>
-                            <div className="text-[#101828] font-family-inter text-[14px] font-[500] text-left">
+                            <div className="text-[#101828] font-family-inter text-xs sm:text-sm md:text-[14px] font-[500] text-left">
                                 Rate Multiple Resumes at once
                             </div>
-                            <div className="text-[#4D5761] font-family-inter text-[14px] text-left">
+                            <div className="text-[#4D5761] font-family-inter text-xs sm:text-sm md:text-[14px] text-left">
                                 Hey Recruiter! Evaluate top candidates.
                             </div>
                         </div>
@@ -105,17 +103,18 @@ const ModalPopup = () => {
 
                 </div>
                 {showPreference && (
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 w-full">
                         <button
                             onClick={() => handleContinue(false)}
                             className="flex text-white bg-black justify-center font-family-inter
-                        text-[16px] items-center font-[600] w-full px-16 py-2.5 rounded-md"
+                            text-sm sm:text-[14px] md:text-[16px] items-center font-[600] w-full px-4 sm:px-8 md:px-16 py-2 sm:py-2.5 rounded-md"
                         >
                             Continue
                         </button>
                         <button
                             onClick={() => handleContinue(true)}
-                            className="flex text-black bg-white border font-family-inter border-black justify-center text-[16px] items-center w-full px-16 py-2.5 rounded-md"
+                            className="flex text-black bg-white border font-family-inter border-black justify-center 
+                            text-sm sm:text-[14px] md:text-[16px] items-center w-full px-4 sm:px-8 md:px-16 py-2 sm:py-2.5 rounded-md"
                         >
                             Continue and don&apos;t show again
                         </button>

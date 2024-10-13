@@ -19,6 +19,7 @@
     "react-dropzone": "^14.2.9",
     "react-hot-toast": "^2.4.1",
     "react-loader-spinner": "^6.1.6",
+    "react-responsive": "^10.0.0",
     "react-router-dom": "^6.26.2",
     "react-tooltip": "^5.28.0",
     "styled-components": "^6.1.13",

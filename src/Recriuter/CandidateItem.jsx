@@ -5,7 +5,7 @@ import SkillTooltip from './SkillTooltip';
 import styled from 'styled-components';
 import avatar from '../assets/avata.png';
 
-const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete }) => {
+const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete, isMobile }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const skillsToShowCount = 2;
     const getSkillColor = (color) => {
@@ -37,27 +37,28 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete 
     const hiddenSkillsCount = hiddenSkills.length;
 
     const Container = styled.div`
-  position: relative;
-  border-top: ${({ first }) => (first ? '1px solid' : 'none')};
-  border-bottom: 1px solid #E5E7EB;
-  background-color: ${({ isGray }) => (isGray ? '#f9fafb' : '#ffffff')};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-    padding: 16px;
-  width: 100%;
-`;
+        position: relative;
+        border-top: ${({ first }) => (first ? '1px solid' : 'none')};
+        border-bottom: 1px solid #E5E7EB;
+        background-color: ${({ isGray }) => (isGray ? '#f9fafb' : '#ffffff')};
+        display: flex;
+        flex-direction: ${isMobile ? 'column' : 'row'};
+        align-items: ${isMobile ? 'flex-start' : 'center'};
+        justify-content: space-between;
+        padding: 16px;
+        width: 100%;
+    `;
 
     return (
         <Container isGray={isGray} className='last:rounded-[8px]'>
-            <div className="w-3/6 flex items-center">
+            <div className={`${isMobile ? 'w-full' : 'w-3/6'} flex items-center mb-4 md:mb-0`}>
                 <img className='w-[40px] h-[40px] rounded-full mr-[12px]' src={avatar} alt="mahho" />
                 <div>
                     <h3 className="font-[500] text-[14px]">{name}</h3>
                     <p className="text-[14px] text-[#4D5761]">{email}</p>
                 </div>
             </div>
-            <div className="w-3/6 flex flex-wrap items-center gap-2 relative">
+            <div className={`${isMobile ? 'w-full' : 'w-3/6'} flex flex-wrap items-center gap-2 relative mb-4 md:mb-0`}>
                 {visibleMissingSkills.map((skill, index) => (
                     <span
                         key={index}
@@ -91,7 +92,7 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete 
                     </>
                 )}
             </div>
-            <div className="w-2/6 flex items-center justify-end gap-4">
+            <div className={`${isMobile ? 'w-full' : 'w-2/6'} flex items-center ${isMobile ? 'justify-between' : 'justify-end'} gap-4`}>
                 <div className="flex items-center w-full max-w-[200px]">
                     <div className="w-full h-2 bg-gray-200 rounded-full mr-2">
                         <div

@@ -79,14 +79,14 @@ const CandidateInput = () => {
     };
 
     return (
-        <div className=''>
+        <div className='w-full px-4 sm:px-0'>
             {submissionStatus === 'pending' ? (
                 <AnalyzCv />
             ) : (
-                <div className={`flex flex-col items-center justify-center h-full 
-                transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className="w-full max-w-[380px] space-y-4">
-                        <div>
+                <div className={`flex flex-col items-center justify-center min-h-screen py-8
+                    transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="w-full max-w-[380px] space-y-6">
+                        <div className="w-full">
                             <UploadCv />
                         </div>
                         <div className="flex flex-col items-stretch w-full">
@@ -96,6 +96,7 @@ const CandidateInput = () => {
                                 name="description"
                                 type="text"
                                 onChange={(e) => setDescription(e.target.value)}
+                                className="w-full"
                             />
                         </div>
                         <CheckBox
@@ -108,11 +109,10 @@ const CandidateInput = () => {
                         <button
                             onClick={handleSubmit}
                             disabled={!isChecked || !resume || !description}
-                            className={`flex justify-center items-center gap-1 text-[16px] font-[600] w-full h-[40px] border ${isChecked ? 'bg-black text-white' : 'bg-gray-300 text-gray-500'} rounded-[6px]`}
+                            className={`flex justify-center items-center gap-1 text-[16px] font-[600] w-full h-[48px] border ${isChecked ? 'bg-black text-white' : 'bg-gray-300 text-gray-500'} rounded-[6px]`}
                         >
                             {loading ? <SpinLoadingButton /> : "Rate my Resume"}
                         </button>
-
                     </div>
                 </div>
             )}

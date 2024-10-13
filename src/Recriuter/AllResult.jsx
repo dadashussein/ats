@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { generatePDF } from "../utils/generatePdf";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useMediaQuery } from 'react-responsive';
 
 
 
@@ -72,12 +73,20 @@ const EmailInput = styled.input`
   }
 `;
 
+const MobileMetricGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+`;
+
 const AllResult = () => {
     const location = useLocation();
     const [isSending, setIsSending] = useState(false);
     const { data = [], title = "No Title Provided", resumes = [] } = location.state || {};
     const [search, setSearch] = useState("");
     const token = sessionStorage.getItem('token');
+    const isMobile = useMediaQuery({ maxWidth: 768 });
 
 
     const forReport = data.map((item, index) => ({
@@ -177,94 +186,126 @@ const AllResult = () => {
         setEmail("");
     };
     return (
-        <div className="flex flex-col gap-[32px] h-full py-4">
+        <div className="flex flex-col gap-[32px] h-full py-4 px-4 md:px-0">
             <div className="job-title leading-9">
-                <h1 className="text-[30px] leading-9 font-family-inter font-[600]">{title}</h1>
+                <h1 className="text-[24px] md:text-[30px] leading-9 font-family-inter font-[600]">{title}</h1>
             </div>
 
-            <div className="metric-container items-stretch justify-between">
-                <div className="metric-group flex gap-2 min-w-[300px] ">
-                    <span><UserCheckIcon /></span>
-                    <div className="">
-                        <span className=" text-[#4D5761] text-[14px]">Total Candidates: <span className="font-[500] text-[14px] text-[#111927]">{candidates.length}</span></span>
-                        <span className="flex items-center gap-2">
-                            <span className=" text-[14px] text-[#079455] flex items-center gap-2"><UploadIcon /> <span>100%</span></span>
-                            <span className="font-[500] text-[14px] text-[#4D5761]">Uploaded</span>
-                        </span>
+            {isMobile ? (
+                <MobileMetricGroup>
+                    <div className="metric-group flex gap-2">
+                        <span><UserCheckIcon /></span>
+                        <div>
+                            <span className="text-[#4D5761] text-[14px]">Total Candidates: <span className="font-[500] text-[14px] text-[#111927]">{candidates.length}</span></span>
+                            <span className="flex items-center gap-2">
+                                <span className="text-[14px] text-[#079455] flex items-center gap-2"><UploadIcon /> <span>100%</span></span>
+                                <span className="font-[500] text-[14px] text-[#4D5761]">Uploaded</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="metric-group  flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl ">
+                        <span><StartIcon /></span>
+                        <div>
+                            <span className="text-[14px]">Candidates Rated: <span className="font-[500] text-[14px]">{candidates.length}</span></span>
+                            <span className="flex items-center gap-2">
+                                <span className="text-[#F04438] text-[14px] flex items-center gap-2"><WarningIcon /> <span>0 CV</span></span>
+                                <span className="font-[500] text-[14px] text-[#4D5761]">Not Processed</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="metric-group  flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl">
+                        <div><HeartIcon /></div>
+                        <div>
+                            <span className="text-[14px]">Mates: <span className="font-[500] text-[14px]">{candidates.filter(c => c.aiScore >= 80).length}</span></span>
+                            <span className="flex items-center gap-2">
+                                <span className="text-[#4D5761] flex text-[14px] items-center gap-2">Candidates over <span>80%</span></span>
+                            </span>
+                        </div>
+                    </div>
+                </MobileMetricGroup>
+            ) : (
+                <div className="metric-container items-stretch justify-between flex flex-wrap gap-4">
+                    <div className="metric-group flex gap-2 min-w-[300px] ">
+                        <span><UserCheckIcon /></span>
+                        <div className="">
+                            <span className=" text-[#4D5761] text-[14px]">Total Candidates: <span className="font-[500] text-[14px] text-[#111927]">{candidates.length}</span></span>
+                            <span className="flex items-center gap-2">
+                                <span className=" text-[14px] text-[#079455] flex items-center gap-2"><UploadIcon /> <span>100%</span></span>
+                                <span className="font-[500] text-[14px] text-[#4D5761]">Uploaded</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="metric-group  flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl ">
+                        <span><StartIcon /></span>
+                        <div>
+                            <span className="text-[14px]">Candidates Rated: <span className="font-[500] text-[14px]">{candidates.length}</span></span>
+                            <span className="flex items-center gap-2">
+                                <span className="text-[#F04438] text-[14px] flex items-center gap-2"><WarningIcon /> <span>0 CV</span></span>
+                                <span className="font-[500] text-[14px] text-[#4D5761]">Not Processed</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="metric-group  flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl">
+                        <div><HeartIcon /></div>
+                        <div>
+                            <span className="text-[14px]">Mates: <span className="font-[500] text-[14px]">{candidates.filter(c => c.aiScore >= 80).length}</span></span>
+                            <span className="flex items-center gap-2">
+                                <span className="text-[#4D5761] flex text-[14px] items-center gap-2">Candidates over <span>80%</span></span>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div className="metric-group  flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl ">
-                    <span><StartIcon /></span>
-                    <div>
-                        <span className="text-[14px]">Candidates Rated: <span className="font-[500] text-[14px]">{candidates.length}</span></span>
-                        <span className="flex items-center gap-2">
-                            <span className="text-[#F04438] text-[14px] flex items-center gap-2"><WarningIcon /> <span>0 CV</span></span>
-                            <span className="font-[500] text-[14px] text-[#4D5761]">Not Processed</span>
-                        </span>
-                    </div>
-                </div>
-                <div className="metric-group  flex gap-2 min-w-[300px] py-[7px] px-spacing-2-xl">
-                    <div><HeartIcon /></div>
-                    <div>
-                        <span className="text-[14px]">Mates: <span className="font-[500] text-[14px]">{candidates.filter(c => c.aiScore >= 80).length}</span></span>
-                        <span className="flex items-center gap-2">
-                            <span className="text-[#4D5761] flex text-[14px] items-center gap-2">Candidates over <span>80%</span></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div className="flex items-center transition-all justify-between w-full">
-                <div className="w-1/2">
+            )}
+
+            <div className="flex flex-col md:flex-row items-center transition-all justify-between w-full">
+                <div className="w-full md:w-1/2 mb-4 md:mb-0">
                     <h1 className="text-[18px] font-[600]">Candidates</h1>
                     <span className="font-[400] text-[14px] text-[#4D5761]">Candidates who applied this position.</span>
                 </div>
-                <div className={`flex gap-spacing-lg w-1/2 mr-[8px]  items-end justify-end `}>
-
+                <div className={`flex flex-col md:flex-row gap-spacing-lg w-full md:w-1/2 items-center md:items-end justify-center md:justify-end `}>
                     <button
                         onClick={handleSendReportClick}
-                        className={`bg-black max-h-[40px] flex font-[600]
-                         items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px]
-                          `}>
+                        className={`bg-black max-h-[40px] flex font-[600] items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px] mb-2 md:mb-0`}>
                         <span><SendMailIcon /></span>
                         <span className="text-[14px]">Mail me Reports</span>
                     </button>
+                    <ReportInputContainer isVisible={isReportVisible}>
+                        <EmailInput
+                            type="email"
+                            disabled={isSending}
+                            value={email}
+                            onChange={handleEmailChange}
+                            placeholder="Enter your email"
+                        />
+                        <button
+                            onClick={handleSendEmail}
+                            className="flex font-[600] max-h-[40px] items-center border rounded-[10px] gap-spacing-xs py-[10px] px-[14px]">
+                            {isSending ? <span className="animate-spin"><Loading2Icon /></span> : <span className="text-[14px]">Send</span>}
+                        </button>
+                    </ReportInputContainer>
                 </div>
-                <ReportInputContainer isVisible={isReportVisible}>
-                    <EmailInput
-                        type="email"
-                        disabled={isSending}
-                        value={email}
-                        onChange={handleEmailChange}
-                        placeholder="Enter your email"
-                    />
-                    <button
-                        onClick={handleSendEmail}
-                        className="flex font-[600] max-h-[40px] items-center border rounded-[10px] gap-spacing-xs py-[10px] px-[14px]">
-                        {isSending ? <span className="animate-spin"><Loading2Icon /></span> : <span className="text-[14px]">Send</span>}
-                    </button>
-                </ReportInputContainer>
             </div>
             <div className="border border-gray-200 rounded-[8px] pt-[20px]">
-                <div className="flex items-center gap-2">
-                    <div className="relative flex ml-4 gap-2 flex-col">
+                <div className="flex items-center gap-2 px-4 md:px-0">
+                    <div className="relative flex w-full md:w-auto md:ml-4 gap-2 flex-col">
                         <span className="text-[14px] text-[#384250]">Search</span>
                         <span className="absolute left-2 top-9"><SearchIcon /></span>
                         <SearchInput
                             onChange={handleSearch}
                             type="text"
                             placeholder="Search"
+                            className="w-full md:w-auto"
                         />
                     </div>
                 </div>
                 <div>
-                    <SearchContainer>
+                    <SearchContainer className="hidden md:flex">
                         <h2 className="font-[500] text-[12px] w-3/6">Candidate</h2>
                         <h2 className="font-[500] text-[12px] w-3/6 ">Skills (Analyzed)</h2>
                         <h2 className="font-[500] text-[12px] w-2/6 ">AI Score</h2>
                     </SearchContainer>
 
-                    <CandidateList id="pdf-content"
-                    >
+                    <CandidateList id="pdf-content">
                         {filteredCandidates.length > 0 ? (
                             filteredCandidates.map((candidate, index) => (
                                 <CandidateItem
@@ -276,6 +317,7 @@ const AllResult = () => {
                                     isGray={index % 2 === 1}
                                     resume={candidate.resume}
                                     onDelete={() => deleteResume(index)}
+                                    isMobile={isMobile}
                                 />
                             ))
                         ) : (
@@ -286,7 +328,6 @@ const AllResult = () => {
                     </CandidateList>
                 </div>
             </div>
-
         </div>
     );
 };

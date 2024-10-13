@@ -100,20 +100,21 @@ const RecruiterInput = ({ job }) => {
       {submissionStatus === 'pending' ? (
         <AnalyzCv />
       ) : (
-        <div className={`flex flex-col  mt-24  max-w-[380px] items-center justify-center 
-        transition-opacity duration-300  ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`flex flex-col mt-16 sm:mt-20 md:mt-24 w-full max-w-[320px] sm:max-w-[350px] md:max-w-[380px] 
+        mx-auto px-4 sm:px-6 items-center justify-center 
+        transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
           <div className="flex flex-col items-center justify-center mb-2 text-center">
-            <img src={logo} alt="" className="min-w-10 min-h-10" loading="lazy" />
+            <img src={logo} alt="" className="w-8 h-8 sm:w-10 sm:h-10" loading="lazy" />
             <div className='flex mt-1 flex-col gap-2'>
-              <h1 className="text-[27px] font-bold">Future of AI Saying Hi </h1>
-              <p className='text-[14px] text-[#475467]'>
+              <h1 className="text-xl sm:text-2xl md:text-[27px] font-bold">Future of AI Saying Hi </h1>
+              <p className='text-xs sm:text-sm md:text-[14px] text-[#475467]'>
                 Don&apos;t Let Your Resume Be a Snoozefest: Upload & Rate in 1 Click!
               </p>
             </div>
           </div>
           <div className="w-full mb-2 mt-3">
             <RecriuterUpload />
-            <div className="flex flex-col my-2  w-full">
+            <div className="flex flex-col my-2 w-full">
               <TextArea
                 placeholder="Enter job description here"
                 id="description"
@@ -131,12 +132,12 @@ const RecruiterInput = ({ job }) => {
             <button
               onClick={handleSubmit}
               disabled={!isChecked || !severalResume.length || !description}
-              className={`flex justify-center items-center gap-1 text-[16px] font-[600]
-                 w-full h-[40px] my-[16px] border ${isChecked ? 'bg-black text-white' : 'bg-gray-300 text-gray-500'} rounded-[6px]`}
+              className={`flex justify-center items-center gap-1 text-sm sm:text-[14px] md:text-[16px] font-[600]
+                 w-full h-[36px] sm:h-[38px] md:h-[40px] my-[12px] sm:my-[14px] md:my-[16px] border 
+                 ${isChecked ? 'bg-black text-white' : 'bg-gray-300 text-gray-500'} rounded-[6px]`}
             >
               {loading ? <SpinLoadingButton /> : "Rate resumes"}
             </button>
-
           </div>
         </div>
       )}
