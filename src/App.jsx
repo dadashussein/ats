@@ -10,7 +10,7 @@ import Terms from './components/Terms.jsx';
 const App = () => {
   const jobDescriptions = [];
   return (
-    <div className='flex justify-center items-center  h-screen'>
+    <div className='flex justify-center   h-screen'>
       <ResumeProvider>
         <Routes>
           <Route path="/" element={<ModalPopup />} />

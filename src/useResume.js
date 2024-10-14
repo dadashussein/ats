@@ -31,7 +31,6 @@ const useResume = () => {
     for (let fileObj of cvFiles) {
       setCvProgress(prev => ({ ...prev, [fileObj.id]: 0 }));
       for (let step = 0; step <= totalSteps; step++) {
-        await delay(1);
         setCvProgress(prev => ({ ...prev, [fileObj.id]: (step / totalSteps) * 100 }));
       }
     }

@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { Tooltip } from 'react-tooltip';
 import { DownloadIcon, TrashIcon } from "../assets/Icons";
-import SkillTooltip from './SkillTooltip';
 import styled from 'styled-components';
 import avatar from '../assets/avata.png';
+import SkillsModal from './SkillsModal';
 
 const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete, isMobile }) => {
-    const [showTooltip, setShowTooltip] = useState(false);
-    const skillsToShowCount = 2;
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const skillsToShowCount = 3;
     const getSkillColor = (color) => {
         switch (color) {
             case 'red': return 'bg-red-100 text-red-600 border border-red-300';
@@ -15,6 +14,9 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
             default: return 'bg-gray-100 text-gray-600 border border-gray-300';
         }
     };
+
+    console.log(skills);
+    
     const handleDownload = () => {
         if (resume) {
             const link = document.createElement('a');
@@ -26,14 +28,8 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
         }
     };
 
-    const missingSkills = skills.filter(skill => skill.color === 'red');
-    const okaySkills = skills.filter(skill => skill.color === 'green');
-    const visibleMissingSkills = missingSkills.slice(0, skillsToShowCount);
-    const visibleOkaySkills = okaySkills.slice(0, skillsToShowCount);
-    const hiddenSkills = [
-        ...missingSkills.slice(skillsToShowCount),
-        ...okaySkills.slice(skillsToShowCount)
-    ];
+    const visibleSkills = skills.slice(0, skillsToShowCount);
+    const hiddenSkills = skills.slice(skillsToShowCount);
     const hiddenSkillsCount = hiddenSkills.length;
 
     const Container = styled.div`
@@ -59,7 +55,7 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
                 </div>
             </div>
             <div className={`${isMobile ? 'w-full' : 'w-3/6'} flex flex-wrap items-center gap-2 relative mb-4 md:mb-0`}>
-                {visibleMissingSkills.map((skill, index) => (
+                {visibleSkills.map((skill, index) => (
                     <span
                         key={index}
                         className={`py-1 px-4 text-[12px] font-semibold rounded-full ${getSkillColor(skill.color)} max-w-[150px] truncate`}
@@ -68,28 +64,13 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
                         {skill.name}
                     </span>
                 ))}
-                {visibleOkaySkills.map((skill, index) => (
-                    <span
-                        key={index}
-                        className={`py-[4px] px-[16px] text-[12px] font-semibold rounded-full ${getSkillColor(skill.color)} max-w-[150px] truncate`}
-                        title={skill.name}
-                    >
-                        {skill.name}
-                    </span>
-                ))}
                 {hiddenSkillsCount > 0 && (
-                    <>
-                        <button
-                            data-tooltip-id="skills-tooltip"
-                            data-tooltip-content={hiddenSkills.map(skill => skill.name).join(', ')}
-                            className="text-[#384250] border py-1 px-4 rounded-full border-gray-300 text-[12px] font-semibold"
-                        >
-                            +{hiddenSkillsCount}
-                        </button>
-                        <Tooltip id="skills-tooltip" place="top">
-                            <SkillTooltip getSkillColor={getSkillColor} skills={hiddenSkills} />
-                        </Tooltip>
-                    </>
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="text-[#384250] border py-1 px-4 rounded-full border-gray-300 text-[12px] font-semibold"
+                    >
+                        +{hiddenSkillsCount}
+                    </button>
                 )}
             </div>
             <div className={`${isMobile ? 'w-full' : 'w-2/6'} flex items-center ${isMobile ? 'justify-between' : 'justify-end'} gap-4`}>
@@ -118,6 +99,13 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
                     )}
                 </div>
             </div>
+            {isModalOpen && (
+                <SkillsModal
+                    skills={skills}
+                    onClose={() => setIsModalOpen(false)}
+                    getSkillColor={getSkillColor}
+                />
+            )}
         </Container>
     );
 };

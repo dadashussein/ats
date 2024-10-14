@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HeartIcon, Loading2Icon, SearchIcon, SendMailIcon, StartIcon, UploadIcon, UserCheckIcon, WarningIcon } from "../assets/Icons";
 import CandidateItem from "./CandidateItem";
 import { useMemo, useState } from "react";
@@ -87,6 +87,7 @@ const AllResult = () => {
     const [search, setSearch] = useState("");
     const token = sessionStorage.getItem('token');
     const isMobile = useMediaQuery({ maxWidth: 768 });
+    const navigate = useNavigate();
 
 
     const forReport = data.map((item, index) => ({
@@ -185,11 +186,14 @@ const AllResult = () => {
         setIsReportVisible(false);
         setEmail("");
     };
+
+    const handleReturnHome = () => {
+        navigate('/');
+    };
+
     return (
         <div className="flex flex-col gap-[32px] h-full py-4 px-4 md:px-0">
-            <div className="job-title leading-9">
-                <h1 className="text-[24px] md:text-[30px] leading-9 font-family-inter font-[600]">{title}</h1>
-            </div>
+           
 
             {isMobile ? (
                 <MobileMetricGroup>
@@ -263,6 +267,11 @@ const AllResult = () => {
                     <span className="font-[400] text-[14px] text-[#4D5761]">Candidates who applied this position.</span>
                 </div>
                 <div className={`flex flex-col md:flex-row gap-spacing-lg w-full md:w-1/2 items-center md:items-end justify-center md:justify-end `}>
+                    <button
+                        onClick={handleReturnHome}
+                        className="bg-gray-200 max-h-[40px] flex font-[600] items-center rounded-[6px] gap-spacing-xs text-black py-[10px] px-[14px] mb-2 md:mb-0 mr-2">
+                        <span className="text-[14px]">Return Home</span>
+                    </button>
                     <button
                         onClick={handleSendReportClick}
                         className={`bg-black max-h-[40px] flex font-[600] items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px] mb-2 md:mb-0`}>
