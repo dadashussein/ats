@@ -15,8 +15,7 @@ const CandidateItem = ({ name, email, skills, aiScore, isGray, resume, onDelete,
         }
     };
 
-    console.log(skills);
-    
+
     const handleDownload = () => {
         if (resume) {
             const link = document.createElement('a');

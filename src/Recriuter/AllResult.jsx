@@ -192,7 +192,7 @@ const AllResult = () => {
     };
 
     return (
-        <div className="flex flex-col gap-[32px] h-full py-4 px-4 md:px-0">
+        <div className="flex flex-col gap-[32px] h-full py-4   px-4 md:px-0">
            
 
             {isMobile ? (

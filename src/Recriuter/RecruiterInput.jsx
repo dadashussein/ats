@@ -101,7 +101,7 @@ const RecruiterInput = ({ job }) => {
         <AnalyzCv />
       ) : (
         <>
-          <div className="hidden lg:flex flex-col w-full gap-8 lg:flex-row items-start justify-center h-screen   p-8">
+          <div className="hidden lg:flex flex-col w-full gap-8 lg:flex-row items-start justify-center    p-8">
             <div className="w-full lg:w-1/2 overflow-y-auto rounded-lg border  bg-white  p-8 mb-8 ">
               <div className="flex items-start justify-start mb-6">
                 <img src={logo} alt="Logo" className="w-12 h-12 mr-4" loading="lazy" />
