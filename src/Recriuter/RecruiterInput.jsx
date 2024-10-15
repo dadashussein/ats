@@ -9,6 +9,7 @@ import AnalyzCv from '../AnalyzCv';
 import logo from '../assets/version3/logo.png';
 import TextArea from '../components/TextArea';
 import { FaUpload, FaFileAlt } from 'react-icons/fa';
+import useResult from '../context/ResultContext';
 
 const REQUEST_ID = 'https://extension.dadashussein.tech/cv/multiple';
 const REQUEST_REPORT = `https://extension.dadashussein.tech/report/hr`;
@@ -24,11 +25,12 @@ const RecruiterInput = ({ job }) => {
   const { severalResume } = useResume();
   const token = sessionStorage.getItem('token');
 
-
+  const { setResult } = useResult();
 
 
   useEffect(() => {
     setIsVisible(false);
+
     setTimeout(() => setIsVisible(true), 50);
   }, []);
 
@@ -78,6 +80,7 @@ const RecruiterInput = ({ job }) => {
         });
         if (response.status === 200) {
           setSubmissionStatus('fulfilled');
+          setResult(response.data);
           navigate('/result', { state: { data: response.data, title, resumes: severalResume } });
         }
         if (response.status === 400) {

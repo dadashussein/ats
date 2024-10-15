@@ -7,7 +7,6 @@ import pdfIcon from '../assets/version3/pdfIcon.png';
 import docIcon from '../assets/version3/doc.png';
 import { v4 as uuidv4 } from 'uuid';
 import autoAnimate from '@formkit/auto-animate';
-import styled from 'styled-components';
 import downlaodicon from '../assets/version3/downloadicon.png'
 
 
@@ -18,6 +17,7 @@ const RecriuterUpload = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const cvListRef = useRef(null);
+   
 
 
     useEffect(() => {
@@ -100,7 +100,7 @@ const RecriuterUpload = () => {
             </div>
 
             {severalResume.length > 0 && (
-                <div  className='my-4 flex  rounded-md max-h-[170px] overflow-y-auto no-scrollbar
+                <div className='my-4 flex  rounded-md max-h-[170px] overflow-y-auto no-scrollbar
                   flex-col gap-4' ref={cvListRef}>
                     {severalResume && severalResume.map((cv) => (
                         <div key={cv.id} className=" border  border-gray-150

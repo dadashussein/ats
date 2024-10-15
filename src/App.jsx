@@ -6,20 +6,23 @@ import ModalPopup from './ModalPopup.jsx';
 import CandidateInput from './Candidate/CandidateInput.jsx';
 import RecruiterInput from './Recriuter/RecruiterInput.jsx';
 import Terms from './components/Terms.jsx';
+import { ResultProvider } from './context/ResultContext.jsx';
 
 const App = () => {
   const jobDescriptions = [];
   return (
     <div className='flex justify-center '>
       <ResumeProvider>
-        <Routes>
-          <Route path="/" element={<ModalPopup />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/candidateInput" element={<CandidateInput job={jobDescriptions} />} />
-          <Route path="/recruiterInput" element={<RecruiterInput job={jobDescriptions} />} />
-          <Route path="/analyzCv" element={<AnalyzCv />} />
-          <Route path="/result" element={<AllResult />} />
-        </Routes>
+        <ResultProvider>
+          <Routes>
+            <Route path="/" element={<ModalPopup />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/candidateInput" element={<CandidateInput job={jobDescriptions} />} />
+            <Route path="/recruiterInput" element={<RecruiterInput job={jobDescriptions} />} />
+            <Route path="/analyzCv" element={<AnalyzCv />} />
+            <Route path="/result" element={<AllResult />} />
+          </Routes>
+        </ResultProvider>
       </ResumeProvider>
     </div>
   );

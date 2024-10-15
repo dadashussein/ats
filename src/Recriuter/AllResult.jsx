@@ -82,6 +82,46 @@ const MobileMetricGroup = styled.div`
   width: 100%;
 `;
 
+const ReportButton = styled.button`
+  background-color: black;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #333;
+  }
+`;
+
+const ReportModal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: ${({ isVisible }) => (isVisible ? "block" : "none")};
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: ${({ isVisible }) => (isVisible ? "block" : "none")};
+`;
+
 const AllResult = () => {
     const location = useLocation();
     const [isSending, setIsSending] = useState(false);
@@ -133,10 +173,11 @@ const AllResult = () => {
         resume: resumes[index]?.file || null
     })));
 
-    const [isReportVisible, setIsReportVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [email, setEmail] = useState("");
 
 
+  
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
@@ -155,7 +196,12 @@ const AllResult = () => {
 
 
     const handleSendReportClick = () => {
-        setIsReportVisible(true);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setEmail("");
     };
 
     const handleEmailChange = (e) => {
@@ -189,8 +235,7 @@ const AllResult = () => {
         } catch (error) {
             toast.error('Failed to send report');
         }
-        setIsReportVisible(false);
-        setEmail("");
+        handleCloseModal();
     };
 
     const handleReturnHome = () => {
@@ -272,32 +317,17 @@ const AllResult = () => {
                     <h1 className="text-[18px] font-[600]">Candidates</h1>
                     <span className="font-[400] text-[14px] text-[#4D5761]">Candidates who applied this position.</span>
                 </div>
-                <div className={`flex flex-col md:flex-row gap-spacing-lg w-full md:w-1/2 items-center md:items-end justify-center md:justify-end `}>
+                <div className="flex flex-col md:flex-row gap-spacing-lg w-full md:w-1/2 items-center md:items-end justify-center md:justify-end">
                     <button
                         onClick={handleReturnHome}
-                        className="bg-gray-200 max-h-[40px] flex font-[600] items-center rounded-[6px] gap-spacing-xs text-black py-[10px] px-[14px] mb-2 md:mb-0 mr-2">
+                        className="bg-gray-200 max-h-[40px] flex font-[600] items-center rounded-[6px] gap-spacing-xs text-black py-[10px] px-[14px] mb-2 md:mb-0 mr-2"
+                    >
                         <span className="text-[14px]">Return Home</span>
                     </button>
-                    <button
-                        onClick={handleSendReportClick}
-                        className={`bg-black max-h-[40px] gap-4  flex font-[600] items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px] mb-2 md:mb-0`}>
-                        <span><SendMailIcon /></span>
+                    <ReportButton onClick={handleSendReportClick}>
+                        <SendMailIcon />
                         <span className="text-[14px]">Mail me Reports</span>
-                    </button>
-                    <ReportInputContainer isVisible={isReportVisible}>
-                        <EmailInput
-                            type="email"
-                            disabled={isSending}
-                            value={email}
-                            onChange={handleEmailChange}
-                            placeholder="Enter your email"
-                        />
-                        <button
-                            onClick={handleSendEmail}
-                            className="flex font-[600] max-h-[40px] items-center border rounded-[10px] gap-spacing-xs py-[10px] px-[14px]">
-                            {isSending ? <span className="animate-spin"><Loading2Icon /></span> : <span className="text-[14px]">Send</span>}
-                        </button>
-                    </ReportInputContainer>
+                    </ReportButton>
                 </div>
             </div>
             <div className="border border-gray-200 rounded-[8px] pt-[20px]">
@@ -343,6 +373,40 @@ const AllResult = () => {
                     </CandidateList>
                 </div>
             </div>
+
+            <ModalOverlay isVisible={isModalOpen} onClick={handleCloseModal} />
+            <ReportModal isVisible={isModalOpen}>
+                <h2 className="text-xl font-bold mb-4">Send Report</h2>
+                <p className="mb-4">Enter your email to receive the report:</p>
+                <EmailInput
+                    type="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    placeholder="Enter your email"
+                    className="w-full mb-4"
+                />
+                <div className="flex justify-end gap-2">
+                    <button
+                        onClick={handleCloseModal}
+                        className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-100"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={handleSendEmail}
+                        className="px-4 py-2 border border-gray-300  rounded hover:bg-gray-800"
+                        disabled={isSending}
+                    >
+                        {isSending ? (
+                            <div className="animate-spin ">
+                                <Loading2Icon   />
+                            </div>
+                        ) : (
+                            "Send"
+                        )}
+                    </button>
+                </div>
+            </ReportModal>
         </div>
     );
 };

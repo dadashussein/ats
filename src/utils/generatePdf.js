@@ -82,6 +82,7 @@ const drawCandidateInfo = (doc, candidate, margin, yPos, pageWidth, lineHeight, 
 };
 
 export const generatePDF = async (candidates) => {
+    console.log(candidates);
     const doc = new jsPDF('p', 'pt', 'a4');
     const margin = 40;
     let yPos = 60;
