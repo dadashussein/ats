@@ -22,7 +22,7 @@ const AnalyzCv = () => {
     }, []);
 
     return (
-        <div className={`flex items-center justify-center h-full transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`flex items-center justify-center h-screen transition-opacity duration-300 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
             <div className='w-full max-w-[380px] text-center flex flex-col items-center px-4 md:px-0'>
                 <div className={`relative w-[58px] h-[58px] mb-4`}>
                     <img
