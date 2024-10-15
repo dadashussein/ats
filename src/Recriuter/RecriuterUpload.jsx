@@ -63,7 +63,7 @@ const RecriuterUpload = () => {
             'application/msword': ['.doc'],
         },
         onDrop,
-        maxFiles: 100,
+        maxFiles: 15,
     });
 
     const ConverToKb = (size) => (size / 1000).toFixed(2);
