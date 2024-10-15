@@ -7,6 +7,8 @@ import { generatePDF } from "../utils/generatePdf";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useMediaQuery } from 'react-responsive';
+import { nanoid } from "nanoid";
+import { useEffect } from "react";
 
 
 
@@ -88,6 +90,7 @@ const AllResult = () => {
     const token = sessionStorage.getItem('token');
     const isMobile = useMediaQuery({ maxWidth: 768 });
     const navigate = useNavigate();
+    const [filteredCandidates, setFilteredCandidates] = useState([]);
 
 
     const forReport = data.map((item, index) => ({
@@ -119,6 +122,7 @@ const AllResult = () => {
 
 
     const [candidates, setCandidates] = useState(data.map((item, index) => ({
+        id: nanoid(),
         name: item.fullname || `Candidate ${index + 1}`,
         email: item.email || "No Email",
         skills: {
@@ -132,20 +136,22 @@ const AllResult = () => {
     const [isReportVisible, setIsReportVisible] = useState(false);
     const [email, setEmail] = useState("");
 
-    const deleteResume = (indexToDelete) => {
-        setCandidates(prevCandidates => prevCandidates.filter((_, index) => index !== indexToDelete));
-    };
+
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
 
-    const filteredCandidates = useMemo(() => {
-        return candidates.filter(candidate =>
+    useEffect(() => {
+        setFilteredCandidates(candidates.filter(candidate =>
             candidate.name.toLowerCase().includes(search.toLowerCase())
-        );
+        ));
     }, [candidates, search]);
 
+
+    const deleteResume = (idToDelete) => {
+        setFilteredCandidates(prevCandidates => prevCandidates.filter(candidate => candidate.id !== idToDelete));
+    };
 
 
     const handleSendReportClick = () => {
@@ -193,7 +199,7 @@ const AllResult = () => {
 
     return (
         <div className="flex flex-col gap-[32px] h-full py-4   px-4 md:px-0">
-           
+
 
             {isMobile ? (
                 <MobileMetricGroup>
@@ -274,7 +280,7 @@ const AllResult = () => {
                     </button>
                     <button
                         onClick={handleSendReportClick}
-                        className={`bg-black max-h-[40px] flex font-[600] items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px] mb-2 md:mb-0`}>
+                        className={`bg-black max-h-[40px] gap-4  flex font-[600] items-center rounded-[6px] gap-spacing-xs text-white py-[10px] px-[14px] mb-2 md:mb-0`}>
                         <span><SendMailIcon /></span>
                         <span className="text-[14px]">Mail me Reports</span>
                     </button>
@@ -325,7 +331,7 @@ const AllResult = () => {
                                     aiScore={candidate.aiScore}
                                     isGray={index % 2 === 1}
                                     resume={candidate.resume}
-                                    onDelete={() => deleteResume(index)}
+                                    onDelete={() => deleteResume(candidate.id)}
                                     isMobile={isMobile}
                                 />
                             ))
