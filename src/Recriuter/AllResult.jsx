@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeartIcon, Loading2Icon, SearchIcon, SendMailIcon, StartIcon, UploadIcon, UserCheckIcon, WarningIcon } from "../assets/Icons";
 import CandidateItem from "./CandidateItem";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import styled from 'styled-components';
 import { generatePDF } from "../utils/generatePdf";
 import axios from "axios";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useMediaQuery } from 'react-responsive';
 import { nanoid } from "nanoid";
 import { useEffect } from "react";
-
+import Swal from 'sweetalert2'
 
 
 const CandidateList = styled.div`
@@ -55,13 +55,6 @@ const SearchInput = styled.input`
   }
 `;
 
-const ReportInputContainer = styled.div`
-  display: ${({ isVisible }) => (isVisible ? "flex" : "none")};
-  
-  align-items: center;
-  transition: all 0.3s ease-in-out;
-  max-height: ${({ isVisible }) => (isVisible ? "40px" : "0")};
-`;
 
 const EmailInput = styled.input`
   padding: 10px;
@@ -177,7 +170,7 @@ const AllResult = () => {
     const [email, setEmail] = useState("");
 
 
-  
+
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
@@ -211,7 +204,10 @@ const AllResult = () => {
     const handleSendEmail = async () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            toast.error('Please enter a valid email address');
+            Swal.fire({
+                title: "Please enter a valid email address",
+                icon: "error"
+            });
             return;
         }
 
@@ -228,12 +224,20 @@ const AllResult = () => {
                 }
             });
             if (response.status === 200) {
+                Swal.fire({
+                    title: "Report sent successfully!",
+                    text: email,
+                    icon: "success"
+                });
                 setIsSending(false);
-                toast.success('Report sent successfully');
             }
 
         } catch (error) {
-            toast.error('Failed to send report');
+            Swal.fire({
+                title: "Failed to send report",
+                text: error.message,
+                icon: "error"
+            });
         }
         handleCloseModal();
     };
@@ -394,12 +398,12 @@ const AllResult = () => {
                     </button>
                     <button
                         onClick={handleSendEmail}
-                        className="px-4 py-2 border border-gray-300  rounded hover:bg-gray-800"
+                        className="px-4 py-2 border border-gray-300  rounded hover:bg-green-500"
                         disabled={isSending}
                     >
                         {isSending ? (
                             <div className="animate-spin ">
-                                <Loading2Icon   />
+                                <Loading2Icon />
                             </div>
                         ) : (
                             "Send"
