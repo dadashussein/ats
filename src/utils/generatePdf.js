@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 
 const drawSectionTitle = (doc, title, xPos, yPos) => {
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.setTextColor("#111827");
     doc.text(title, xPos, yPos);
 };
@@ -9,8 +9,7 @@ const drawSectionTitle = (doc, title, xPos, yPos) => {
 const drawTextItems = (doc, items, color, xPos, yPos, columnWidth, lineHeight, pageHeight, margin) => {
     doc.setFontSize(10);
     doc.setTextColor(color);
-
-    if (Array.isArray(items) && items.length > 0) {
+    if (Array.isArray(items)) {
         items.forEach((item) => {
             const wrappedText = doc.splitTextToSize(`- ${item.name}`, columnWidth - 10);
             wrappedText.forEach(line => {
@@ -29,67 +28,61 @@ const drawTextItems = (doc, items, color, xPos, yPos, columnWidth, lineHeight, p
 const drawCandidateInfo = (doc, candidate, margin, yPos, pageWidth, lineHeight, pageHeight) => {
     const columnWidth = (pageWidth - margin * 3) / 2;
 
-    // Add a background rectangle for each candidate
-    doc.setFillColor(248, 250, 252); // Light gray background
-    doc.rect(margin, yPos, pageWidth - margin * 2, 200, 'F');
-
     // Candidate Name and Email
-    doc.setFontSize(16);
-    doc.setTextColor("#1E40AF"); // Dark blue for name
-    doc.setFont(undefined, 'bold');
-    doc.text(`${candidate.name}`, margin + 10, yPos + 30);
-    
-    doc.setFontSize(12);
-    doc.setTextColor("#4B5563"); // Gray for email
-    doc.setFont(undefined, 'normal');
-    doc.text(`${candidate.email}`, margin + 10, yPos + 50);
-
-    // AI Score Box
-    doc.setFillColor("#10B981"); // Green background for AI Score
-    doc.rect(pageWidth - margin - 100, yPos + 10, 90, 30, 'F');
-    doc.setTextColor("#FFFFFF"); // White text for AI Score
     doc.setFontSize(14);
-    doc.setFont(undefined, 'bold');
-    doc.text(`AI Score: ${candidate.aiScore}%`, pageWidth - margin - 95, yPos + 30);
-
-    // Draw sections for Skills, Experiences, Education, and Tools
-    yPos += 70;
-    yPos = drawSection(doc, 'Skills', candidate.skills, margin + 10, yPos, columnWidth, lineHeight, pageHeight, margin);
-    yPos = drawSection(doc, 'Experiences', candidate.experiences, margin + columnWidth + 20, yPos - 70, columnWidth, lineHeight, pageHeight, margin);
-
-    // Education and Tools
-    yPos += 20;
-    yPos = drawSection(doc, 'Education', candidate.education, margin + 10, yPos, columnWidth, lineHeight, pageHeight, margin);
-    yPos = drawSection(doc, 'Tools', candidate.tools, margin + columnWidth + 20, yPos - 70, columnWidth, lineHeight, pageHeight, margin);
-
-    return yPos + 30;
-};
-
-const drawSection = (doc, title, items, xPos, yPos, columnWidth, lineHeight, pageHeight, margin) => {
-    // Section Title Background
-    doc.setFillColor("#E5E7EB"); // Light gray background for section title
-    doc.rect(xPos - 5, yPos - 15, columnWidth, 25, 'F');
-    
-    // Section Title
-    doc.setFontSize(12);
     doc.setTextColor("#111827");
-    doc.setFont(undefined, 'bold');
-    doc.text(title, xPos, yPos);
-    
-    yPos += lineHeight * 1.5;
-    doc.setFont(undefined, 'normal');
-    
-    if (items?.okey && items.okey.length > 0) {
-        yPos = drawTextItems(doc, items.okey, "#059669", xPos, yPos, columnWidth, lineHeight, pageHeight, margin);
+    if (yPos + 40 > pageHeight - margin) {
+        doc.addPage();
+        yPos = margin;
     }
-    if (items?.missing && items.missing.length > 0) {
-        yPos = drawTextItems(doc, items.missing, "#DC2626", xPos, yPos, columnWidth, lineHeight, pageHeight, margin);
+    doc.text(`Name: ${candidate.name}`, margin + 10, yPos + 20);
+    doc.setFontSize(12);
+    doc.setTextColor("#4D5761");
+    doc.text(`Email: ${candidate.email}`, margin + 10, yPos + 40);
+
+    // Top Section: Skills and Experiences
+    let skillYPos = yPos + 60;
+    drawSectionTitle(doc, 'Skills:', margin + 10, skillYPos);
+    skillYPos += lineHeight;
+    skillYPos = drawTextItems(doc, candidate.skills?.okey, "#079455", margin + 20, skillYPos, columnWidth, lineHeight, pageHeight, margin);
+    skillYPos = drawTextItems(doc, candidate.skills?.missing, "#F04438", margin + 20, skillYPos, columnWidth, lineHeight, pageHeight, margin);
+
+    let expYPos = yPos + 60;
+    drawSectionTitle(doc, 'Experiences:', margin + columnWidth + 20, expYPos);
+    expYPos += lineHeight;
+    expYPos = drawTextItems(doc, candidate.experiences?.okey, "#079455", margin + columnWidth + 30, expYPos, columnWidth, lineHeight, pageHeight, margin);
+    expYPos = drawTextItems(doc, candidate.experiences?.missing, "#F04438", margin + columnWidth + 30, expYPos, columnWidth, lineHeight, pageHeight, margin);
+
+    const maxTopYPos = Math.max(skillYPos, expYPos);
+    yPos = maxTopYPos + 20;
+
+    // Bottom Section: Education and Tools
+    let eduYPos = yPos + 20;
+    drawSectionTitle(doc, 'Education:', margin + 10, eduYPos);
+    eduYPos += lineHeight;
+    eduYPos = drawTextItems(doc, candidate.education?.okey, "#079455", margin + 20, eduYPos, columnWidth, lineHeight, pageHeight, margin);
+    eduYPos = drawTextItems(doc, candidate.education?.missing, "#F04438", margin + 20, eduYPos, columnWidth, lineHeight, pageHeight, margin);
+
+    let toolsYPos = yPos + 20;
+    drawSectionTitle(doc, 'Tools:', margin + columnWidth + 20, toolsYPos);
+    toolsYPos += lineHeight;
+    toolsYPos = drawTextItems(doc, candidate.tools?.okey, "#079455", margin + columnWidth + 30, toolsYPos, columnWidth, lineHeight, pageHeight, margin);
+    toolsYPos = drawTextItems(doc, candidate.tools?.missing, "#F04438", margin + columnWidth + 30, toolsYPos, columnWidth, lineHeight, pageHeight, margin);
+
+    // AI Score
+    const maxBottomYPos = Math.max(eduYPos, toolsYPos);
+    if (maxBottomYPos + 20 > pageHeight - margin) {
+        doc.addPage();
+        yPos = margin;
     }
-    
-    return yPos;
+    doc.setTextColor("#111827");
+    doc.text(`AI Score: ${candidate.aiScore}%`, margin + 10, maxBottomYPos + 20);
+
+    return maxBottomYPos + 40;
 };
 
 export const generatePDF = async (candidates) => {
+    console.log(candidates);
     const doc = new jsPDF('p', 'pt', 'a4');
     const margin = 40;
     let yPos = 60;
@@ -107,7 +100,9 @@ export const generatePDF = async (candidates) => {
             doc.addPage();
             yPos = margin;
         }
-        
+        doc.setFillColor(index % 2 === 0 ? '#ffffff' : '#ffffff');
+        doc.rect(margin, yPos, pageWidth - margin * 2, 180, 'F');
+
         yPos = drawCandidateInfo(doc, candidate, margin, yPos, pageWidth, lineHeight, pageHeight);
 
         if (index < candidates.length - 1) {
@@ -115,7 +110,6 @@ export const generatePDF = async (candidates) => {
                 doc.addPage();
                 yPos = margin;
             }
-            // Add separator line between candidates
             doc.setDrawColor(200, 200, 200);
             doc.line(margin, yPos, pageWidth - margin, yPos);
             yPos += 20;
