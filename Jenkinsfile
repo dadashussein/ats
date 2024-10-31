@@ -2,11 +2,12 @@ pipeline {
     agent {
         docker {
             image 'node:lts-buster-slim'
-            args '-p 3000:3000'
+            args '-p 3000:3000 --network jenkins'
         }
     }
     environment {
-        CI = 'true'
+        CI = 'true',
+        HOST = '0.0.0.0'
     }
     stages {
         stage('Build') {
