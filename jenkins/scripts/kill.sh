@@ -1,7 +1,18 @@
 #!/usr/bin/env sh
 
-echo 'The following command terminates the "npm start" process using its PID'
-echo '(written to ".pidfile"), all of which were conducted when "deliver.sh"'
-echo 'was executed.'
-set -x
-kill $(cat .pidfile)
+if [ -f .pidfile ]; then
+    PID=$(cat .pidfile)
+    if ps -p $PID > /dev/null 2>&1; then
+        echo "Stopping process $PID..."
+        kill $PID
+        rm .pidfile
+        exit 0
+    else
+        echo "Process $PID not found"
+        rm .pidfile
+        exit 0
+    fi
+else
+    echo "No .pidfile found"
+    exit 0
+fi
