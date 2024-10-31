@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        CI = 'true',
+        CI = 'true'
         HOST = '0.0.0.0'
     }
     stages {
