@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:20-slim'
+            image 'node:lts-buster-slim'
             args '-p 3000:8080'
         }
     }
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'pnpm install'
+                sh './jenkins/scripts/install-pnpm.sh'
             }
         }
         stage('Deliver') {
